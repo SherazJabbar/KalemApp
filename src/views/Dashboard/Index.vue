@@ -198,21 +198,71 @@
         <!-- Separator -->
         <div class="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true" />
 
-        <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-          <form class="relative flex flex-1" action="#" method="GET">
-            <label for="search-field" class="sr-only">Search</label>
-            <MagnifyingGlassIcon
-              class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
-              aria-hidden="true"
-            />
-            <input
-              id="search-field"
-              class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
-              placeholder="Search..."
-              type="search"
-              name="search"
-            />
-          </form>
+        <div class="flex flex-1 gap-x-4 lg:gap-x-6">
+          <div class="relative w-full self-center">
+            <form
+              class="relative flex flex-1 items-center"
+              action="#"
+              method="GET"
+              @submit.prevent="handleSearch"
+            >
+              <label for="search-field" class="sr-only">Search</label>
+              <MagnifyingGlassIcon
+                class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
+                aria-hidden="true"
+              />
+              <input
+                id="search-field"
+                class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                placeholder="Search..."
+                v-model="searchQuery"
+                type="search"
+                name="search"
+              />
+              <button
+                @click="toggleDropdown"
+                class="ml-2 px-4 py-3 rounded-md bg-blue-500 text-white hover:bg-blue-600"
+              >
+                <!-- condition to change button content -->
+                <img
+                  v-if="!dropdownOpen"
+                  src="../../assets/filter.svg"
+                  alt="Filter Icon"
+                  class="w-4 h-4"
+                />
+                {{ dropdownOpen ? 'Filters' : '' }}
+              </button>
+            </form>
+
+            <!-- filters dropdown section -->
+            <div
+              v-if="dropdownOpen"
+              class="absolute right-0 mt-2 bg-white rounded-md border border-gray-300 p-2 w-48"
+            >
+              <ul class="my-2 px-3">
+                <!-- checklist items  -->
+                <li v-for="(value, index) in filters" :key="index">
+                  <label class="flex items-center">
+                    <input
+                      v-model="selectedFilters"
+                      :value="value"
+                      type="checkbox"
+                      class="form-checkbox"
+                    />
+                    <span class="ml-2">{{ value }}</span>
+                  </label>
+                </li>
+              </ul>
+              <!-- cross button to close the dropdown -->
+              <img
+                @click="closeDropdown"
+                src="../../assets/cross-icon.svg"
+                alt="Close Dropdown"
+                class="absolute top-2 right-2 w-4 h-4 cursor-pointer text-gray-600 hover:text-gray-800 transition"
+              />
+            </div>
+          </div>
+
           <div class="flex items-center gap-x-4 lg:gap-x-6">
             <button type="button" class="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
               <span class="sr-only">View notifications</span>
@@ -301,10 +351,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useCallsStore } from '../../stores/CallsStore'
 import { RouterLink, RouterView } from 'vue-router'
 const authenticationStore = useAuthenticationStore()
 import { storeToRefs } from 'pinia'
+
+const dropdownOpen = ref(false)
+
+function toggleDropdown() {
+  dropdownOpen.value = !dropdownOpen.value
+}
+
+function closeDropdown() {
+  dropdownOpen.value = false
+}
 const { user } = storeToRefs(authenticationStore)
 import {
   Dialog,
@@ -350,5 +411,33 @@ const userNavigation = [
   { name: 'Sign out', href: '#' }
 ]
 
+const filters = ['from', 'to', 'call_id', 'date_from', 'date_to']
+
 const sidebarOpen = ref(false)
+
+const selectedFilters = ref([])
+
+const { get_calls } = useCallsStore()
+const searchQuery = ref('')
+
+const combinedFilters = computed(() => {
+  const filtersObject = {}
+
+  // Add selected filters to the filters object
+  selectedFilters.value.forEach((filter) => {
+    filtersObject[filter] = searchQuery.value
+  })
+
+  return filtersObject
+})
+
+const handleSearch = () => {
+  console.log(' combinedFilters.value', combinedFilters)
+  get_calls(1, 20, combinedFilters.value)
+}
+
+// watch(combinedFilters, (newFilters) => {
+//   // Call the get_calls function with the new filters
+//   get_calls(1, 20, newFilters)
+// })
 </script>

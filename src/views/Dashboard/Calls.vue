@@ -185,55 +185,7 @@
             Previous
           </a>
         </div>
-        <div class="hidden md:-mt-px md:flex">
-          <!-- <a
-            v-if="calls.data && calls.data.length"
-            v-for="(page, index) in Math.ceil(calls.total / calls.per_page)"
-            :key="index"
-            @click="callsStore.get_calls(index + 1)"
-            href="#"
-            :class="[
-              calls.current_page === index + 1
-                ? 'inline-flex items-center border-t-2 border-indigo-500 px-4 pt-4 text-sm font-medium text-indigo-600'
-                : 'inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700'
-            ]"
-            >{{ index + 1 }}</a
-          > -->
-          <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500
-          hover:text-gray-700 hover:border-gray-300" -->
-          <!--
-          <a
-            href="#"
-            class="inline-flex items-center border-t-2 border-indigo-500 px-4 pt-4 text-sm font-medium text-indigo-600"
-            aria-current="page"
-            >2</a
-          >
-          <a
-            href="#"
-            class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            >3</a
-          >
-          <span
-            class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500"
-            >...</span
-          >
-          <a
-            href="#"
-            class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            >8</a
-          >
-          <a
-            href="#"
-            class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            >9</a
-          >
-          <a
-            href="#"
-            class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            >10</a
-          >
-          -->
-        </div>
+        <div class="hidden md:-mt-px md:flex"></div>
         <div class="-mt-px flex w-0 flex-1 justify-end">
           <a
             v-if="calls.current_page < Math.ceil(calls.total / calls.per_page)"
@@ -247,6 +199,12 @@
         </div>
       </nav>
     </div>
+
+    <!-- <div class="loader-overlay">
+      <div class="loader-background"></div>
+
+      <div class="loader-spinner"></div>
+    </div> -->
   </div>
 </template>
 
@@ -263,3 +221,44 @@ onMounted(() => {
   // v-for="(page, index) in Math.ceil(calls.total / calls.per_page)"
 })
 </script>
+
+<style>
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.loader-spinner {
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style>
