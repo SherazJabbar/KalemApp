@@ -166,6 +166,19 @@
                     >Edit<span class="sr-only">, {{ call.call_id }}</span></a
                   >
                 </td>
+                <td
+                  :class="[
+                    index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
+                    'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8',
+                  ]"
+                >
+                  <a
+                    href="#"
+                    @click="showDeleteModal(call.call_id)"
+                    class="text-indigo-600 hover:text-indigo-900"
+                    >Delete<span class="sr-only">, {{ call.call_id }}</span></a
+                  >
+                </td>
               </tr>
             </tbody>
           </table>
@@ -209,6 +222,9 @@
       @onLimitSelect="onLimitSelect"
     />
     <loader :loading="loading" />
+    <delete-modal />
+    <test />
+    <!-- <delete-modal :deleteModal="deleteModal.value" /> -->
   </div>
 </template>
 
@@ -226,6 +242,7 @@ const totalPages = ref({
   total_pages: 0,
 });
 const current_page = ref(1);
+const deleteModal = ref(false);
 
 onMounted(() => {
   callsStore.get_calls(1);
@@ -244,6 +261,12 @@ const onPageChange = (page) => {
 
 const onLimitSelect = (limitValue) => {
   callsStore.get_calls(current_page.value, limitValue);
+};
+
+const showDeleteModal = (id) => {
+  console.log("deleteID", id);
+  deleteModal.value = true;
+  // console.log("deleteModal", deleteModal);
 };
 </script>
 
