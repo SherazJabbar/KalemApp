@@ -87,7 +87,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8'
+                    'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8',
                   ]"
                 >
                   {{ call.call_id }}
@@ -95,7 +95,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.application_id }}
@@ -103,7 +103,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.from }}
@@ -111,7 +111,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.to }}
@@ -119,7 +119,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.answer_at }}
@@ -127,7 +127,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.hangup_at }}
@@ -135,7 +135,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.duration }}
@@ -143,7 +143,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.cost }}
@@ -151,7 +151,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.status }}
@@ -159,7 +159,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8'
+                    'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8',
                   ]"
                 >
                   <a href="#" class="text-indigo-600 hover:text-indigo-900"
@@ -172,8 +172,10 @@
         </div>
       </div>
     </div>
-    <div>
-      <nav class="flex items-center justify-between border-t border-gray-200 px-4 sm:px-0">
+    <!-- <div>
+      <nav
+        class="flex items-center justify-between border-t border-gray-200 px-4 sm:px-0"
+      >
         <div class="-mt-px flex w-0 flex-1">
           <a
             v-if="calls.current_page != 1"
@@ -198,67 +200,51 @@
           </a>
         </div>
       </nav>
-    </div>
-
-    <!-- <div class="loader-overlay">
-      <div class="loader-background"></div>
-
-      <div class="loader-spinner"></div>
     </div> -->
+
+    <pagination
+      :pagination="totalPages"
+      :current-page="current_page"
+      @pagechanged="onPageChange"
+      @onLimitSelect="onLimitSelect"
+    />
+    <loader :loading="loading" />
   </div>
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { onMounted, ref } from 'vue'
-import { useCallsStore } from '../../stores/CallsStore'
-const callsStore = useCallsStore()
-const { loading, calls } = storeToRefs(callsStore)
-import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/vue/20/solid'
+import { storeToRefs } from "pinia";
+import { onMounted, ref, watchEffect } from "vue";
+import { useCallsStore } from "../../stores/CallsStore";
+const callsStore = useCallsStore();
+const { loading, calls } = storeToRefs(callsStore);
+import { ArrowLongLeftIcon, ArrowLongRightIcon } from "@heroicons/vue/20/solid";
+
+const totalPages = ref({
+  per_page: 0,
+  total: 0,
+  total_pages: 0,
+});
+const current_page = ref(1);
 
 onMounted(() => {
-  callsStore.get_calls(1)
-  // v-for="(page, index) in Math.ceil(calls.total / calls.per_page)"
-})
+  callsStore.get_calls(1);
+});
+
+watchEffect(() => {
+  totalPages.value.per_page = calls?.value?.per_page;
+  totalPages.value.total = calls?.value?.total;
+  totalPages.value.total_pages = Math.ceil(calls?.value?.total / calls?.value?.per_page);
+});
+
+const onPageChange = (page) => {
+  current_page.value = page;
+  callsStore.get_calls(current_page.value);
+};
+
+const onLimitSelect = (limitValue) => {
+  callsStore.get_calls(current_page.value, limitValue);
+};
 </script>
 
-<style>
-.loader-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.loader-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.loader-spinner {
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  width: 200px;
-  height: 200px;
-  animation: spin 0.6s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-</style>
+<style></style>

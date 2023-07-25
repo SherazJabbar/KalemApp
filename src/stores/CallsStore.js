@@ -15,8 +15,9 @@ export const useCallsStore = defineStore('calls', () => {
   function get_calls(page = 1, limit = 20, filters = {}) {
     loading.value = true
     const queryParams = new URLSearchParams({ page, limit, ...filters })
+    console.log("queryParams", queryParams)
     axiosInstance
-      .get('/api/call?page=' + queryParams.toString(), {
+      .get(`/api/call?` + queryParams.toString(), {
         headers: {
           Authorization: 'Bearer ' + token.value
         }

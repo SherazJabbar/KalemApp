@@ -44,7 +44,11 @@
               <!-- Sidebar component, swap this element with another sidebar if you like -->
               <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                 <div class="flex h-16 shrink-0 items-center">
-                  <img class="h-10 w-auto" src="../../assets/ICON.png" alt="Your Company" />
+                  <img
+                    class="h-10 w-auto"
+                    src="../../assets/ICON.png"
+                    alt="Your Company"
+                  />
                 </div>
                 <nav class="flex flex-1 flex-col">
                   <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -57,7 +61,7 @@
                               item.current
                                 ? 'bg-gray-50 text-indigo-600'
                                 : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
-                              'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                              'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                             ]"
                           >
                             <component
@@ -66,7 +70,7 @@
                                 item.current
                                   ? 'text-indigo-600'
                                   : 'text-gray-400 group-hover:text-indigo-600',
-                                'h-6 w-6 shrink-0'
+                                'h-6 w-6 shrink-0',
                               ]"
                               aria-hidden="true"
                             />
@@ -136,7 +140,7 @@
                       item.current
                         ? 'bg-gray-50 text-indigo-600'
                         : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
-                      'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                      'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                     ]"
                     :to="item.href"
                   >
@@ -146,7 +150,7 @@
                         item.current
                           ? 'text-indigo-600'
                           : 'text-gray-400 group-hover:text-indigo-600',
-                        'h-6 w-6 shrink-0'
+                        'h-6 w-6 shrink-0',
                       ]"
                       aria-hidden="true"
                     />
@@ -230,7 +234,7 @@
                   alt="Filter Icon"
                   class="w-4 h-4"
                 />
-                {{ dropdownOpen ? 'Filters' : '' }}
+                {{ dropdownOpen ? "Filters" : "" }}
               </button>
             </form>
 
@@ -270,14 +274,22 @@
             </button>
 
             <!-- Separator -->
-            <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true" />
+            <div
+              class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200"
+              aria-hidden="true"
+            />
             <div class="grid gap-0 grid-cols-1">
               <div class="text-sm"><span class="text-center">Balance</span></div>
               <div class="text-sm">
-                <span v-if="user.account" class="text-center">{{ user.account.balance }}$</span>
+                <span v-if="user.account" class="text-center"
+                  >{{ user.account.balance }}$</span
+                >
               </div>
             </div>
-            <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true" />
+            <div
+              class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200"
+              aria-hidden="true"
+            />
 
             <!-- Profile dropdown -->
             <Menu as="div" class="relative">
@@ -308,7 +320,10 @@
                   >
                     {{ user.name }}
                   </span>
-                  <ChevronDownIcon class="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
+                  <ChevronDownIcon
+                    class="ml-2 h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
                 </span>
               </MenuButton>
               <transition
@@ -322,13 +337,17 @@
                 <MenuItems
                   class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
                 >
-                  <MenuItem v-for="item in userNavigation" :key="item.name" v-slot="{ active }">
+                  <MenuItem
+                    v-for="item in userNavigation"
+                    :key="item.name"
+                    v-slot="{ active }"
+                  >
                     <a
                       :href="item.href"
                       @click="authenticationStore.logout"
                       :class="[
                         active ? 'bg-gray-50' : '',
-                        'block px-3 py-1 text-sm leading-6 text-gray-900'
+                        'block px-3 py-1 text-sm leading-6 text-gray-900',
                       ]"
                       >{{ item.name }}</a
                     >
@@ -351,22 +370,22 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
-import { useCallsStore } from '../../stores/CallsStore'
-import { RouterLink, RouterView } from 'vue-router'
-const authenticationStore = useAuthenticationStore()
-import { storeToRefs } from 'pinia'
+import { ref, computed, watch } from "vue";
+import { useCallsStore } from "../../stores/CallsStore";
+import { RouterLink, RouterView } from "vue-router";
+const authenticationStore = useAuthenticationStore();
+import { storeToRefs } from "pinia";
 
-const dropdownOpen = ref(false)
+const dropdownOpen = ref(false);
 
 function toggleDropdown() {
-  dropdownOpen.value = !dropdownOpen.value
+  dropdownOpen.value = !dropdownOpen.value;
 }
 
 function closeDropdown() {
-  dropdownOpen.value = false
+  dropdownOpen.value = false;
 }
-const { user } = storeToRefs(authenticationStore)
+const { user } = storeToRefs(authenticationStore);
 import {
   Dialog,
   DialogPanel,
@@ -375,8 +394,8 @@ import {
   MenuItem,
   MenuItems,
   TransitionChild,
-  TransitionRoot
-} from '@headlessui/vue'
+  TransitionRoot,
+} from "@headlessui/vue";
 import {
   Bars3Icon,
   BellIcon,
@@ -388,53 +407,53 @@ import {
   HomeIcon,
   PhoneIcon,
   UsersIcon,
-  XMarkIcon
-} from '@heroicons/vue/24/outline'
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
-import { useAuthenticationStore } from '../../stores/Authentication'
+  XMarkIcon,
+} from "@heroicons/vue/24/outline";
+import { ChevronDownIcon, MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
+import { useAuthenticationStore } from "../../stores/Authentication";
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: HomeIcon, current: false },
-  { name: 'Calls', href: '/calls', icon: PhoneIcon, current: false }
+  { name: "Dashboard", href: "/", icon: HomeIcon, current: false },
+  { name: "Calls", href: "/calls", icon: PhoneIcon, current: false },
   // { name: 'Projects', href: '#', icon: FolderIcon, current: false },
   // { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
   // { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
   // { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
-]
+];
 const teams = [
   // { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
   // { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
   // { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
-]
+];
 const userNavigation = [
   // { name: 'Your profile', href: '#' },
-  { name: 'Sign out', href: '#' }
-]
+  { name: "Sign out", href: "#" },
+];
 
-const filters = ['from', 'to', 'call_id', 'date_from', 'date_to']
+const filters = ["from", "to", "call_id", "date_from", "date_to"];
 
-const sidebarOpen = ref(false)
+const sidebarOpen = ref(false);
 
-const selectedFilters = ref([])
+const selectedFilters = ref([]);
 
-const { get_calls } = useCallsStore()
-const searchQuery = ref('')
+const { get_calls } = useCallsStore();
+const searchQuery = ref("");
 
 const combinedFilters = computed(() => {
-  const filtersObject = {}
+  const filtersObject = {};
 
   // Add selected filters to the filters object
   selectedFilters.value.forEach((filter) => {
-    filtersObject[filter] = searchQuery.value
-  })
+    filtersObject[filter] = searchQuery.value;
+  });
 
-  return filtersObject
-})
+  return filtersObject;
+});
 
 const handleSearch = () => {
-  console.log(' combinedFilters.value', combinedFilters)
-  get_calls(1, 20, combinedFilters.value)
-}
+  console.log(" combinedFilters.value", combinedFilters);
+  get_calls(1, 20, combinedFilters.value);
+};
 
 // watch(combinedFilters, (newFilters) => {
 //   // Call the get_calls function with the new filters

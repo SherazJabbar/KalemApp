@@ -1,6 +1,7 @@
 import './assets/main.css'
 import { createApp, inject, reactive } from 'vue'
 import { createPinia } from 'pinia'
+import plugins from "./plugins"
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import App from './App.vue'
 import router from './router'
@@ -15,4 +16,5 @@ pinia.use(piniaPluginPersistedstate)
 // app.provide('GStore', GStore)
 app.use(pinia)
 app.use(router)
+app.use(plugins);
 app.mount('#app')
