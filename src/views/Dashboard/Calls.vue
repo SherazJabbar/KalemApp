@@ -13,6 +13,13 @@
           Add user
         </button>
       </div> -->
+      <button
+        @click="toggleDropdown"
+        class="ml-2 px-4 py-3 rounded-md bg-blue-500 text-white hover:bg-blue-600"
+      >
+        <!-- condition to change button content -->
+        <img src="../../assets/filter.svg" alt="Filter Icon" class="w-4 h-4" />
+      </button>
     </div>
     <div class="mt-8 flow-root">
       <div class="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
@@ -87,7 +94,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8'
+                    'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8',
                   ]"
                 >
                   {{ call.call_id }}
@@ -95,7 +102,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.application_id }}
@@ -103,7 +110,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.from }}
@@ -111,7 +118,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.to }}
@@ -119,7 +126,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.answer_at }}
@@ -127,7 +134,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.hangup_at }}
@@ -135,7 +142,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.duration }}
@@ -143,7 +150,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.cost }}
@@ -151,7 +158,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.status }}
@@ -159,7 +166,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8'
+                    'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8',
                   ]"
                 >
                   <a href="#" class="text-indigo-600 hover:text-indigo-900"
@@ -169,7 +176,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8'
+                    'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8',
                   ]"
                 >
                   <button
@@ -225,49 +232,59 @@
     <!-- <delete-modal /> -->
 
     <!-- <delete-modal :deleteModal="deleteModal.value" /> -->
-    <test :deleteModal="deleteModal" />
+    <test v-if="deleteModal" />
+    <filters @onApplyFilters="onFilter" v-if="showFilterSlideOver" />
   </div>
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { onMounted, ref, watchEffect } from 'vue'
-import { useCallsStore } from '../../stores/CallsStore'
-const callsStore = useCallsStore()
-const { loading, calls } = storeToRefs(callsStore)
-import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/vue/20/solid'
+import { storeToRefs } from "pinia";
+import { onMounted, ref, watchEffect } from "vue";
+import { useCallsStore } from "../../stores/CallsStore";
+const callsStore = useCallsStore();
+const { loading, calls } = storeToRefs(callsStore);
+import { ArrowLongLeftIcon, ArrowLongRightIcon } from "@heroicons/vue/20/solid";
 
 const totalPages = ref({
   per_page: 0,
   total: 0,
-  total_pages: 0
-})
-const current_page = ref(1)
-const deleteModal = ref(false)
+  total_pages: 0,
+});
+const current_page = ref(1);
+const deleteModal = ref(false);
+const showFilterSlideOver = ref(false);
 
 onMounted(() => {
-  callsStore.get_calls(1)
-})
+  callsStore.get_calls(1);
+});
 
 watchEffect(() => {
-  totalPages.value.per_page = calls?.value?.per_page
-  totalPages.value.total = calls?.value?.total
-  totalPages.value.total_pages = Math.ceil(calls?.value?.total / calls?.value?.per_page)
-})
+  totalPages.value.per_page = calls?.value?.per_page;
+  totalPages.value.total = calls?.value?.total;
+  totalPages.value.total_pages = Math.ceil(calls?.value?.total / calls?.value?.per_page);
+});
 
 const onPageChange = (page) => {
-  current_page.value = page
-  callsStore.get_calls(current_page.value)
-}
+  current_page.value = page;
+  callsStore.get_calls(current_page.value);
+};
 
 const onLimitSelect = (limitValue) => {
-  callsStore.get_calls(current_page.value, limitValue)
-}
+  callsStore.get_calls(current_page.value, limitValue);
+};
 
 const showDeleteModal = (id) => {
-  console.log('deleteID', id)
-  deleteModal.value = !deleteModal.value
-}
+  deleteModal.value = !deleteModal.value;
+};
+
+const toggleDropdown = () => {
+  showFilterSlideOver.value = true;
+};
+
+const onFilter = (params) => {
+  showFilterSlideOver.value = false;
+  callsStore.get_calls(current_page.value, 15, params);
+};
 </script>
 
 <style></style>

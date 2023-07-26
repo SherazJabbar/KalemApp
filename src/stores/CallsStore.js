@@ -15,7 +15,6 @@ export const useCallsStore = defineStore('calls', () => {
   function get_calls(page = 1, limit = 20, filters = {}) {
     loading.value = true
     const queryParams = new URLSearchParams({ page, limit, ...filters })
-    console.log("queryParams", queryParams)
     axiosInstance
       .get(`/api/call?` + queryParams.toString(), {
         headers: {
@@ -24,6 +23,12 @@ export const useCallsStore = defineStore('calls', () => {
       })
       .then((res) => {
         calls.value = res.data
+        if (filters) {
+          router.push({
+            path: '/calls', // Replace with the current route path
+            query: { page, limit, ...filters },
+          });
+        }
       })
       .catch((error) => {
         console.log(error)

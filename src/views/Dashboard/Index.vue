@@ -223,29 +223,16 @@
                 type="search"
                 name="search"
               />
-              <button
-                @click="toggleDropdown"
-                class="ml-2 px-4 py-3 rounded-md bg-blue-500 text-white hover:bg-blue-600"
-              >
-                <!-- condition to change button content -->
-                <img
-                  v-if="!dropdownOpen"
-                  src="../../assets/filter.svg"
-                  alt="Filter Icon"
-                  class="w-4 h-4"
-                />
-                {{ dropdownOpen ? "Filters" : "" }}
-              </button>
             </form>
 
             <!-- filters dropdown section -->
-            <div
+            <!-- <div
               v-if="dropdownOpen"
               class="absolute right-0 mt-2 bg-white rounded-md border border-gray-300 p-2 w-48"
-            >
-              <ul class="my-2 px-3">
-                <!-- checklist items  -->
-                <li v-for="(value, index) in filters" :key="index">
+            > -->
+            <!-- <ul class="my-2 px-3"> -->
+            <!-- checklist items  -->
+            <!-- <li v-for="(value, index) in filters" :key="index">
                   <label class="flex items-center">
                     <input
                       v-model="selectedFilters"
@@ -256,15 +243,15 @@
                     <span class="ml-2">{{ value }}</span>
                   </label>
                 </li>
-              </ul>
-              <!-- cross button to close the dropdown -->
-              <img
+              </ul> -->
+            <!-- cross button to close the dropdown -->
+            <!-- <img
                 @click="closeDropdown"
                 src="../../assets/cross-icon.svg"
                 alt="Close Dropdown"
                 class="absolute top-2 right-2 w-4 h-4 cursor-pointer text-gray-600 hover:text-gray-800 transition"
-              />
-            </div>
+              /> -->
+            <!-- </div> -->
           </div>
 
           <div class="flex items-center gap-x-4 lg:gap-x-6">
@@ -377,10 +364,6 @@ const authenticationStore = useAuthenticationStore();
 import { storeToRefs } from "pinia";
 
 const dropdownOpen = ref(false);
-
-function toggleDropdown() {
-  dropdownOpen.value = !dropdownOpen.value;
-}
 
 function closeDropdown() {
   dropdownOpen.value = false;
