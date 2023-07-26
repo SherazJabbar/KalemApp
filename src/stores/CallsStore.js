@@ -11,7 +11,7 @@ const { token, flashMessage } = storeToRefs(authenticationStore)
 export const useCallsStore = defineStore('calls', () => {
   const calls = ref({})
   const loading = ref(false)
-
+  console.log('call')
   function get_calls(page = 1, limit = 15, filters = {}) {
     loading.value = true
     const queryParams = new URLSearchParams({ page, limit, ...filters })
@@ -49,7 +49,7 @@ export const useCallsStore = defineStore('calls', () => {
       })
   }
 
-  function deleteCallRecord(page = 1, limit = 15, id) {
+  function deleteCallRecord(page, limit, id) {
     loading.value = true
     axiosInstance
       .delete(`/api/call/${id}`, {
@@ -60,8 +60,8 @@ export const useCallsStore = defineStore('calls', () => {
       .then((res) => {
         calls.value = res.data
         router.push({
-          path: '/calls',
-          query: { page, limit } // Replace with the current route path
+          path: '/calls', // Replace with the current route path
+          query: { page, limit }
         })
       })
       .catch((error) => {

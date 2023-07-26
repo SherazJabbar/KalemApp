@@ -254,6 +254,7 @@ const params = {
 }
 
 const initData = () => {
+  console.log('initdata')
   const page = useRoute().query?.page
   const limit = useRoute().query?.limit
   const queryParams = useRoute().query
@@ -306,6 +307,7 @@ const onCloseDeleteModal = () => {
 const onDeleteCallRecord = () => {
   callsStore.deleteCallRecord(current_page.value, 15, callId.value)
   deleteModal.value = false
+  callsStore.get_calls(current_page.value, 15)
 }
 </script>
 
