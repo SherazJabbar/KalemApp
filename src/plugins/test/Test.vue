@@ -1,139 +1,80 @@
 <template>
-  <!-- <div
-    id="delete-confirmation-modal"
-    ref="deleteConfirmationModal"
-    aria-hidden="true"
-    class="modal"
-    tabindex="-1"
-  > -->
-  <div class="modal show">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="p-5 text-center">
-            <XCircleIcon class="w-16 h-16 text-theme-6 mx-auto mt-3" />
-            <div class="text-3xl mt-5"></div>
-            <div class="text-gray-600 mt-2">asdsad</div>
-          </div>
-          <div class="px-5 pb-8 text-center">
-            <button type="button" class="btn btn-outline-secondary w-24 mr-1">
-              sadsad
-            </button>
-            <button type="button" class="btn btn-danger w-24">asdasd</button>
+  <div>
+    <transition name="modal-transition">
+      <div
+        class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50"
+      >
+        <div class="transform translate-y-0 modal-animation">
+          <div class="w-full max-w-lg relative mx-auto my-auto rounded-xl shadow-lg bg-white">
+            <div>
+              <div class="text-center px-3 pt-5 pb-3 flex-auto justify-center leading-6">
+                <div class="flex place-content-center">
+                  <img src="@/assets/cross-circle.svg" class="w-12 h-12" />
+                </div>
+
+                <h2 class="text-3xl font-medium py-3">Are you sure?</h2>
+                <p class="text-sm font-medium text-gray-400 px-8">
+                  Do you really want to delete these records?
+                  <br />
+                  This process cannot be undone.
+                </p>
+              </div>
+              <div class="px-3 pt-3 pb-6 text-center space-x-4 md:block">
+                <button
+                  class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-md hover:shadow-lg hover:bg-gray-100"
+                  @click="onCancel"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-md"
+                  @click="onDelete"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </transition>
   </div>
-  <!-- </div> -->
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch, defineProps, defineEmits, onMounted } from "vue";
-// export default {
-//   emits: ['onDeleteConfirm', 'onCancel'],
-//   methods: {
-//     onDelete() {
-//       this.$emit('onDeleteConfirm')
-//     },
-//     onCancel() {
-//       this.$emit('onCancel')
-//     }
-//   }
-// }
-// const props = defineProps({
-//   deleteModal: { type: Boolean, required: true }
-// })
+import { defineEmits } from 'vue'
 
-// const deleteConfirmationModal = ref(null)
+const emit = defineEmits(['closeDeleteModal', 'deleteCallRecord'])
 
-// onMounted(() => {
-//   // console.log('mounted value', props.deleteModal)
-// })
-
-// watch(
-//   () => props.deleteModal,
-//   (newDeleteModal) => {
-//     console.log('deleteModal changed:', newDeleteModal)
-//     console.log('refs', deleteConfirmationModal.value)
-//     deleteConfirmationModal.value.classList.add('show')
-//   }
-// )
+const onCancel = () => {
+  emit('closeDeleteModal')
+}
+const onDelete = () => {
+  emit('deleteCallRecord')
+}
 </script>
 
-<style scoped>
-.modal {
-  margin: 0 !important;
+<style>
+.modal-animation {
+  animation: slideIn 1000ms ease-in-out;
 }
-.modal {
-  margin-top: -10000px;
-  margin-left: -10000px;
-  background: #000000a6;
-  transition: visibility 0s linear 0.2s, opacity 0.2s 0s;
-  height: 100vh;
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.modal-transition-enter-active,
+.modal-transition-leave-active {
+  transition: opacity 1000ms, transform 300ms;
+}
+
+.modal-transition-enter, .modal-transition-leave-to /* .modal-transition-leave-active in <2.1.8 */ {
   opacity: 0;
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  visibility: hidden;
-  width: 100vw;
-}
-
-.modal.modal-overlap {
-  background: #000000a6;
-}
-
-.modal.modal-static .modal-content {
-  -webkit-animation: modal-static-backdrop 0.3s infinite;
-  animation: modal-static-backdrop 0.3s infinite;
-  -webkit-animation-direction: alternate;
-  animation-direction: alternate;
-}
-
-.modal.show {
-  transition: visibility 0s ease-in-out 0s, opacity 0.4s ease-in-out 0s;
-  opacity: 1;
-  visibility: visible;
-}
-
-.modal.show > .modal-dialog {
-  margin-top: 4rem;
-}
-
-.modal .modal-dialog {
-  width: 90%;
-  transition: margin-top 0.4s;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 4rem;
-  margin-top: -4rem;
-}
-
-@media (min-width: 640px) {
-  .modal .modal-dialog {
-    width: 460px;
-  }
-
-  .modal .modal-dialog.modal-sm {
-    width: 300px;
-  }
-
-  .modal .modal-dialog.modal-lg {
-    width: 600px;
-  }
-
-  .modal .modal-dialog.modal-xl {
-    width: 600px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .modal .modal-dialog.modal-xl {
-    width: 900px;
-  }
-}
-
-.modal .modal-dialog .modal-content {
-  position: relative;
+  transform: translateY(-100%);
 }
 </style>

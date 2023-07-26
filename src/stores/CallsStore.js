@@ -12,7 +12,7 @@ export const useCallsStore = defineStore('calls', () => {
   const calls = ref({})
   const loading = ref(false)
 
-  function get_calls(page = 1, limit = 20, filters = {}) {
+  function get_calls(page = 1, limit = 15, filters = {}) {
     loading.value = true
     const queryParams = new URLSearchParams({ page, limit, ...filters })
     axiosInstance
@@ -26,8 +26,8 @@ export const useCallsStore = defineStore('calls', () => {
         if (filters) {
           router.push({
             path: '/calls', // Replace with the current route path
-            query: { page, limit, ...filters },
-          });
+            query: { page, limit, ...filters }
+          })
         }
       })
       .catch((error) => {
@@ -49,5 +49,39 @@ export const useCallsStore = defineStore('calls', () => {
       })
   }
 
-  return { calls, loading, get_calls }
+  function deleteCallRecord(page = 1, limit = 15, id) {
+    loading.value = true
+    axiosInstance
+      .delete(`/api/call/${id}`, {
+        headers: {
+          Authorization: 'Bearer ' + token.value
+        }
+      })
+      .then((res) => {
+        calls.value = res.data
+        router.push({
+          path: '/calls',
+          query: { page, limit } // Replace with the current route path
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+        if (error.response.status === 401) {
+          authenticationStore.logout
+        }
+        if (error.response && error.response.status == 404) {
+          router.push({
+            name: '404Resource',
+            params: { resource: 'calls' }
+          })
+        } else {
+          router.push({ name: 'NetworkError' })
+        }
+      })
+      .finally(() => {
+        loading.value = false
+      })
+  }
+
+  return { calls, loading, get_calls, deleteCallRecord }
 })
