@@ -11,7 +11,6 @@ const { token, flashMessage } = storeToRefs(authenticationStore)
 export const useCallsStore = defineStore('calls', () => {
   const calls = ref({})
   const loading = ref(false)
-  console.log('call')
   function get_calls(page = 1, limit = 15, filters = {}) {
     loading.value = true
     const queryParams = new URLSearchParams({ page, limit, ...filters })

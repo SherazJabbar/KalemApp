@@ -5,9 +5,7 @@
         class="fixed top-0 left-0 z-90 w-full h-full flex items-center justify-center bg-black bg-opacity-50"
       >
         <div class="transform translate-y-0 modal-animation">
-          <div
-            class="w-full max-w-lg relative mx-auto my-auto rounded-xl shadow-lg bg-white"
-          >
+          <div class="w-full max-w-lg relative mx-auto my-auto rounded-xl shadow-lg bg-white">
             <div>
               <div class="text-center px-3 pt-5 pb-3 flex-auto justify-center leading-6">
                 <div class="flex place-content-center">
@@ -44,16 +42,16 @@
 </template>
 
 <script setup>
-import { defineEmits } from "vue";
+import { defineEmits } from 'vue'
 
-const emit = defineEmits(["closeDeleteModal", "deleteCallRecord"]);
+const emit = defineEmits(['closeDeleteModal', 'deleteCallRecord'])
 
 const onCancel = () => {
-  emit("closeDeleteModal");
-};
+  emit('closeDeleteModal')
+}
 const onDelete = () => {
-  emit("deleteCallRecord");
-};
+  emit('deleteCallRecord')
+}
 </script>
 
 <style>

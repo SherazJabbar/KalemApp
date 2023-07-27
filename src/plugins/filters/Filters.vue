@@ -14,9 +14,7 @@
             <div class="my-3 flex flex-col gap-y-2">
               <div class="text-l font-semibold text-left">Filters</div>
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900"
-                  >Start date</label
-                >
+                <label class="block mb-2 text-sm font-medium text-gray-900">Start date</label>
 
                 <flat-pickr
                   v-model="form.date_from"
@@ -27,9 +25,7 @@
               </div>
 
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900"
-                  >End Date:</label
-                >
+                <label class="block mb-2 text-sm font-medium text-gray-900">End Date:</label>
                 <flat-pickr
                   v-model="form.date_to"
                   class="cursor-pointer border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -60,9 +56,7 @@
 
               <div class="flex my-2 text-xs text-left">
                 <div class="flex-grow mr-2">
-                  <label class="block mb-2 text-sm font-medium text-gray-900"
-                    >Call From:</label
-                  >
+                  <label class="block mb-2 text-sm font-medium text-gray-900">Call From:</label>
                   <vue-tel-input
                     v-model="form.from"
                     mode="international"
@@ -73,9 +67,7 @@
               </div>
               <div class="flex my-2 text-xs text-left">
                 <div class="flex-grow mr-2">
-                  <label class="block mb-2 text-sm font-medium text-gray-900"
-                    >Call To:</label
-                  >
+                  <label class="block mb-2 text-sm font-medium text-gray-900">Call To:</label>
                   <vue-tel-input
                     v-model="form.to"
                     mode="international"
@@ -108,97 +100,97 @@
 </template>
 
 <script setup>
-import { ref, computed, defineEmits, onMounted } from "vue";
-import { useRoute } from "vue-router";
-import flatPickr from "vue-flatpickr-component";
-import "flatpickr/dist/flatpickr.css";
+import { ref, computed, defineEmits, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import flatPickr from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
 
-const emit = defineEmits(["applyFilters", "resetfilters", "closeFilters", "openFilters"]);
+const emit = defineEmits(['applyFilters', 'resetfilters', 'closeFilters', 'openFilters'])
 
 const form = ref({
   date_from: null,
   date_to: null,
   call_id: null,
   to: null,
-  from: null,
-});
-const countryCodeFrom = ref(null);
-const countryCodeTo = ref(null);
+  from: null
+})
+const countryCodeFrom = ref(null)
+const countryCodeTo = ref(null)
 
 const dataOptions = computed(() => {
   return [
     {
-      name: "With",
-      value: "with",
+      name: 'With',
+      value: 'with'
     },
     {
-      name: "Only",
-      value: "only",
-    },
-  ];
-});
+      name: 'Only',
+      value: 'only'
+    }
+  ]
+})
 
-const isOpen = ref(false);
+const isOpen = ref(false)
 
 function openFilters() {
-  isOpen.value = true;
-  emit("openFilters");
+  isOpen.value = true
+  emit('openFilters')
 }
 
 onMounted(() => {
-  const queryParams = useRoute().query;
+  const queryParams = useRoute().query
   Object.keys(form.value).forEach((param) => {
     if (queryParams.hasOwnProperty(param)) {
-      form.value[param] = queryParams[param];
+      form.value[param] = queryParams[param]
     }
-  });
-});
+  })
+})
 
 function getFlatpickrOptions() {
   return {
     enableTime: true,
-    dateFormat: "Y-m-d H:i:S",
-  };
+    dateFormat: 'Y-m-d H:i:S'
+  }
 }
 function codeChangedFrom(country) {
-  countryCodeFrom.value = country.dialCode;
+  countryCodeFrom.value = country.dialCode
 }
 
 function codeChangedTo(country) {
-  countryCodeTo.value = country.dialCode;
+  countryCodeTo.value = country.dialCode
 }
 
 function applyFilters() {
   if (form.value.from) {
-    form.value.from = ("+" + countryCodeFrom?.value + form.value.from).trim();
+    form.value.from = ('+' + countryCodeFrom?.value + form.value.from).trim()
   }
   if (form.value.to) {
-    form.value.to = ("+" + countryCodeTo?.value + form.value.to).trim();
+    form.value.to = ('+' + countryCodeTo?.value + form.value.to).trim()
   }
-  const payload = {};
+  const payload = {}
 
   for (const key in form.value) {
-    if (form.value[key] !== null && form.value[key] !== "") {
-      payload[key] = form.value[key];
+    if (form.value[key] !== null && form.value[key] !== '') {
+      payload[key] = form.value[key]
     }
   }
-  emit("applyFilters", payload);
+  emit('applyFilters', payload)
 }
 
 const resetFilters = () => {
-  resetFilterform();
-  emit("resetfilters");
-};
+  resetFilterform()
+  emit('resetfilters')
+}
 
 const resetFilterform = () => {
   Object.keys(form.value).forEach((key) => {
-    form.value[key] = null;
-  });
-};
+    form.value[key] = null
+  })
+}
 
 const closeFilters = () => {
-  emit("closeFilters");
-};
+  emit('closeFilters')
+}
 </script>
 
 <style scoped>
