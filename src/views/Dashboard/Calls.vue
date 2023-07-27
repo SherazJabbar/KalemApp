@@ -21,173 +21,169 @@
         <img src="../../assets/filter.svg" alt="Filter Icon" class="w-4 h-4" />
       </button>
     </div>
-    <div class="mt-8 flow-root">
-      <div class="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
-        <div class="inline-block min-w-full py-2 align-middle">
-          <table class="min-w-full border-separate border-spacing-0">
-            <thead>
-              <tr>
-                <th
-                  scope="col"
-                  class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
-                >
-                  Call ID
-                </th>
-                <th
-                  scope="col"
-                  class="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell"
-                >
-                  Application
-                </th>
-                <th
-                  scope="col"
-                  class="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter lg:table-cell"
-                >
-                  from
-                </th>
-                <th
-                  scope="col"
-                  class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
-                >
-                  to
-                </th>
-                <th
-                  scope="col"
-                  class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
-                >
-                  answer_at
-                </th>
-                <th
-                  scope="col"
-                  class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
-                >
-                  hangup_at
-                </th>
-                <th
-                  scope="col"
-                  class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
-                >
-                  duration
-                </th>
-                <th
-                  scope="col"
-                  class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
-                >
-                  cost
-                </th>
-                <th
-                  scope="col"
-                  class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
-                >
-                  status
-                </th>
-                <th
-                  scope="col"
-                  class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-3 pr-4 backdrop-blur backdrop-filter sm:pr-6 lg:pr-8"
-                >
-                  <span class="sr-only">Edit</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(call, index) in calls.data" :key="call.call_id">
-                <td
-                  :class="[
-                    index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8',
-                  ]"
-                >
-                  {{ call.call_id }}
-                </td>
-                <td
-                  :class="[
-                    index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
-                  ]"
-                >
-                  {{ call.application_id }}
-                </td>
-                <td
-                  :class="[
-                    index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
-                  ]"
-                >
-                  {{ call.from }}
-                </td>
-                <td
-                  :class="[
-                    index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
-                  ]"
-                >
-                  {{ call.to }}
-                </td>
-                <td
-                  :class="[
-                    index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
-                  ]"
-                >
-                  {{ call.answer_at }}
-                </td>
-                <td
-                  :class="[
-                    index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
-                  ]"
-                >
-                  {{ call.hangup_at }}
-                </td>
-                <td
-                  :class="[
-                    index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
-                  ]"
-                >
-                  {{ call.duration }}
-                </td>
-                <td
-                  :class="[
-                    index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
-                  ]"
-                >
-                  {{ call.cost }}
-                </td>
-                <td
-                  :class="[
-                    index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
-                  ]"
-                >
-                  {{ call.status }}
-                </td>
-                <td
-                  :class="[
-                    index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8',
-                  ]"
-                >
-                  <PencilSquareIcon class="h-5 w-4 cursor-pointer" aria-hidden="true" />
-                </td>
-                <td
-                  :class="[
-                    index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8',
-                  ]"
-                >
-                  <TrashIcon
-                    class="h-5 w-4 cursor-pointer"
-                    aria-hidden="true"
-                    @click="showDeleteModal(call.call_id)"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <div class="mt-8 overflow-x-auto scrollbar">
+      <table class="min-w-full border-separate border-spacing-0">
+        <thead>
+          <tr>
+            <th
+              scope="col"
+              class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
+            >
+              Call ID
+            </th>
+            <!-- Show Application column on screens larger than sm -->
+            <th
+              scope="col"
+              class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
+            >
+              Application
+            </th>
+            <!-- Show From column on screens larger than lg -->
+            <th
+              scope="col"
+              class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter lg:table-cell"
+            >
+              from
+            </th>
+            <th
+              scope="col"
+              class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
+            >
+              to
+            </th>
+            <th
+              scope="col"
+              class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
+            >
+              answer_at
+            </th>
+            <th
+              scope="col"
+              class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
+            >
+              hangup_at
+            </th>
+            <th
+              scope="col"
+              class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
+            >
+              duration
+            </th>
+            <th
+              scope="col"
+              class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
+            >
+              cost
+            </th>
+            <th
+              scope="col"
+              class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
+            >
+              status
+            </th>
+            <th
+              scope="col"
+              class="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-3 pr-4 backdrop-blur backdrop-filter sm:pr-6 lg:pr-8"
+            >
+              <span class="sr-only">Edit</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(call, index) in calls.data" :key="call.call_id">
+            <td
+              :class="[
+                index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
+                'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8',
+              ]"
+            >
+              {{ call.call_id }}
+            </td>
+            <!-- Show Application column on screens larger than sm -->
+            <td
+              :class="[
+                index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
+                'whitespace-nowrap  px-3 py-4 text-sm text-gray-500 ',
+              ]"
+            >
+              {{ call.application_id }}
+            </td>
+            <!-- Show From column on screens larger than lg -->
+            <td
+              :class="[
+                index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
+                'whitespace-nowrap  px-3 py-4 text-sm text-gray-500 lg:table-cell',
+              ]"
+            >
+              {{ call.from }}
+            </td>
+            <td
+              :class="[
+                index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
+                'whitespace-nowrap  px-3 py-4 text-sm text-gray-500 ',
+              ]"
+            >
+              {{ call.to }}
+            </td>
+            <td
+              :class="[
+                index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
+                'whitespace-nowrap  px-3 py-4 text-sm text-gray-500 ',
+              ]"
+            >
+              {{ call.answer_at }}
+            </td>
+            <td
+              :class="[
+                index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
+                'whitespace-nowrap  px-3 py-4 text-sm text-gray-500 ',
+              ]"
+            >
+              {{ call.hangup_at }}
+            </td>
+            <td
+              :class="[
+                index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
+                'whitespace-nowrap  px-3 py-4 text-sm text-gray-500 ',
+              ]"
+            >
+              {{ call.duration }}
+            </td>
+            <td
+              :class="[
+                index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
+                'whitespace-nowrap  px-3 py-4 text-sm text-gray-500 ',
+              ]"
+            >
+              {{ call.cost }}
+            </td>
+            <td
+              :class="[
+                index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
+                'whitespace-nowrap  px-3 py-4 text-sm text-gray-500 ',
+              ]"
+            >
+              {{ call.status }}
+            </td>
+            <td
+              :class="[
+                index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
+                'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8',
+              ]"
+            >
+              <div class="flex gap-x-2">
+                <PencilSquareIcon class="h-5 w-4 cursor-pointer" aria-="true" />
+
+                <TrashIcon
+                  class="h-5 w-4 cursor-pointer"
+                  aria-="true"
+                  @click="showDeleteModal(call.call_id)"
+                />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <pagination
@@ -308,4 +304,34 @@ const onDeleteCallRecord = () => {
 };
 </script>
 
-<style></style>
+<style>
+div.scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+div.scrollbar::-webkit-scrollbar {
+  height: 5px;
+}
+
+div.scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+div.scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+div.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* For Firefox */
+div.scrollbar {
+  scrollbar-width: thin;
+}
+
+div.scrollbar::-webkit-scrollbar {
+  width: 4px !important; /* Hide scrollbar on Firefox */
+}
+</style>
