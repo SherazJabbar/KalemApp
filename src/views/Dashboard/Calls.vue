@@ -94,7 +94,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8'
+                    'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8',
                   ]"
                 >
                   {{ call.call_id }}
@@ -102,7 +102,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.application_id }}
@@ -110,7 +110,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.from }}
@@ -118,7 +118,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.to }}
@@ -126,7 +126,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.answer_at }}
@@ -134,7 +134,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.hangup_at }}
@@ -142,7 +142,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.duration }}
@@ -150,7 +150,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.cost }}
@@ -158,7 +158,7 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell'
+                    'whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell',
                   ]"
                 >
                   {{ call.status }}
@@ -166,18 +166,15 @@
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8'
+                    'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8',
                   ]"
                 >
-                  <!-- <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                    >Edit<span class="sr-only">, {{ call.call_id }}</span></a
-                  > -->
                   <PencilSquareIcon class="h-5 w-4 cursor-pointer" aria-hidden="true" />
                 </td>
                 <td
                   :class="[
                     index !== calls.data.length - 1 ? 'border-b border-gray-200' : '',
-                    'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8'
+                    'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8',
                   ]"
                 >
                   <TrashIcon
@@ -205,7 +202,7 @@
       @closeFilters="onCloseFilterSlider"
       @applyFilters="onApplyFilters"
     />
-    <test
+    <delete
       v-if="deleteModal"
       @closeDeleteModal="onCloseDeleteModal"
       @deleteCallRecord="onDeleteCallRecord"
@@ -215,100 +212,100 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { onMounted, ref, watchEffect } from 'vue'
-import { useCallsStore } from '../../stores/CallsStore'
-import { useRoute, useRouter } from 'vue-router'
-import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/20/solid'
+import { storeToRefs } from "pinia";
+import { onMounted, ref, watchEffect } from "vue";
+import { useCallsStore } from "../../stores/CallsStore";
+import { useRoute, useRouter } from "vue-router";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/vue/20/solid";
 
-const callsStore = useCallsStore()
-const { loading, calls } = storeToRefs(callsStore)
+const callsStore = useCallsStore();
+const { loading, calls } = storeToRefs(callsStore);
 
 const totalPages = ref({
   per_page: 0,
   total: 0,
-  total_pages: 0
-})
-const current_page = ref(1)
-const deleteModal = ref(false)
-const showFilterSlideOver = ref(false)
-const callId = ref(null)
+  total_pages: 0,
+});
+const current_page = ref(1);
+const deleteModal = ref(false);
+const showFilterSlideOver = ref(false);
+const callId = ref(null);
 
 onMounted(() => {
-  console.log('mounted')
-  initData()
-})
+  console.log("mounted");
+  initData();
+});
 
 watchEffect(() => {
-  totalPages.value.per_page = calls?.value?.per_page
-  totalPages.value.total = calls?.value?.total
-  totalPages.value.total_pages = Math.ceil(calls?.value?.total / calls?.value?.per_page)
-})
+  totalPages.value.per_page = calls?.value?.per_page;
+  totalPages.value.total = calls?.value?.total;
+  totalPages.value.total_pages = Math.ceil(calls?.value?.total / calls?.value?.per_page);
+});
 
 const params = {
   date_from: null,
   date_to: null,
   call_id: null,
   to: null,
-  from: null
-}
+  from: null,
+};
 
 const initData = () => {
-  console.log('initdata')
-  const page = useRoute().query?.page
-  const limit = useRoute().query?.limit
-  const queryParams = useRoute().query
-  const paramsToSend = {}
+  console.log("initdata");
+  const page = useRoute().query?.page;
+  const limit = useRoute().query?.limit;
+  const queryParams = useRoute().query;
+  const paramsToSend = {};
 
   Object.keys(params).forEach((param) => {
     if (queryParams.hasOwnProperty(param)) {
-      paramsToSend[param] = queryParams[param]
+      paramsToSend[param] = queryParams[param];
     }
-  })
-  callsStore.get_calls(page, limit, paramsToSend)
-}
+  });
+  callsStore.get_calls(page, limit, paramsToSend);
+};
 
 const onPageChange = (page) => {
-  current_page.value = page
-  callsStore.get_calls(current_page.value)
-}
+  current_page.value = page;
+  callsStore.get_calls(current_page.value);
+};
 
 const onLimitSelect = (limitValue) => {
-  callsStore.get_calls(current_page.value, limitValue)
-}
+  callsStore.get_calls(current_page.value, limitValue);
+};
 
 const showDeleteModal = (id) => {
-  callId.value = id
-  deleteModal.value = true
-}
+  callId.value = id;
+  deleteModal.value = true;
+};
 
 const toggleDropdown = () => {
-  showFilterSlideOver.value = true
-}
+  showFilterSlideOver.value = true;
+};
 
 const onApplyFilters = (params) => {
-  showFilterSlideOver.value = false
-  callsStore.get_calls(current_page.value, 15, params)
-}
+  showFilterSlideOver.value = false;
+  callsStore.get_calls(current_page.value, 15, params);
+};
 
 const onResetfilters = () => {
-  showFilterSlideOver.value = false
-  callsStore.get_calls(1)
-}
+  showFilterSlideOver.value = false;
+  callsStore.get_calls(1);
+};
 
 const onCloseFilterSlider = () => {
-  showFilterSlideOver.value = false
-}
+  showFilterSlideOver.value = false;
+};
 
 const onCloseDeleteModal = () => {
-  deleteModal.value = false
-}
+  deleteModal.value = false;
+};
 
 const onDeleteCallRecord = () => {
-  callsStore.deleteCallRecord(current_page.value, 15, callId.value)
-  deleteModal.value = false
-  callsStore.get_calls(current_page.value, 15)
-}
+  callsStore.deleteCallRecord(current_page.value, 15, callId.value);
+  deleteModal.value = false;
+  callsStore.get_calls(current_page.value, 15);
+};
 </script>
 
 <style></style>
