@@ -184,7 +184,7 @@
 
     <div class="lg:pl-72">
       <div
-        class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8"
+        class="sticky top-0 z-40 flex h-16 items-center border-b border-gray-200 bg-white px-4 shadow-sm sm:px-6 lg:px-8"
       >
         <button
           type="button"
@@ -198,68 +198,113 @@
         <!-- Separator -->
         <div class="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true" />
 
-        <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-          <form class="relative flex flex-1" action="#" method="GET">
-            <label for="search-field" class="sr-only">Search</label>
-            <MagnifyingGlassIcon
-              class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
-              aria-hidden="true"
-            />
-            <input
-              id="search-field"
-              class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
-              placeholder="Search..."
-              type="search"
-              name="search"
-            />
-          </form>
-          <div class="flex items-center gap-x-4 lg:gap-x-6">
-            <button type="button" class="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
-              <span class="sr-only">View notifications</span>
-              <BellIcon class="h-6 w-6" aria-hidden="true" />
-            </button>
+        <div class="flex w-full justify-between">
+          <div class="relative w-full self-center">
+            <form
+              class="relative flex flex-1 items-center"
+              action="#"
+              method="GET"
+              @submit.prevent="handleSearch"
+            >
+              <label for="search-field" class="sr-only">Search</label>
+              <MagnifyingGlassIcon
+                class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
+                aria-hidden="true"
+              />
+              <input
+                id="search-field"
+                v-model="searchQuery"
+                class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                placeholder="Search..."
+                type="search"
+                name="search"
+              />
+            </form>
 
-            <!-- Separator -->
-            <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true" />
-            <div class="grid gap-0 grid-cols-1">
-              <div class="text-sm"><span class="text-center">Balance</span></div>
-              <div class="text-sm">
-                <span v-if="user.account" class="text-center">{{ user.account.balance }}$</span>
-              </div>
-            </div>
-            <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true" />
+            <!-- filters dropdown section -->
+            <!-- <div
+              v-if="dropdownOpen"
+              class="absolute right-0 mt-2 bg-white rounded-md border border-gray-300 p-2 w-48"
+            > -->
+            <!-- <ul class="my-2 px-3"> -->
+            <!-- checklist items  -->
+            <!-- <li v-for="(value, index) in filters" :key="index">
+                  <label class="flex items-center">
+                    <input
+                      v-model="selectedFilters"
+                      :value="value"
+                      type="checkbox"
+                      class="form-checkbox"
+                    />
+                    <span class="ml-2">{{ value }}</span>
+                  </label>
+                </li>
+              </ul> -->
+            <!-- cross button to close the dropdown -->
+            <!-- <img
+                @click="closeDropdown"
+                src="../../assets/cross-icon.svg"
+                alt="Close Dropdown"
+                class="absolute top-2 right-2 w-4 h-4 cursor-pointer text-gray-600 hover:text-gray-800 transition"
+              /> -->
+            <!-- </div> -->
+          </div>
 
-            <!-- Profile dropdown -->
-            <Menu as="div" class="relative">
-              <MenuButton class="-m-1.5 flex items-center p-1.5">
-                <span class="sr-only">Open user menu</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6"
+          <div class="grid grid-cols-3 items-center">
+            <!-- Part 1: Bell Icon -->
+            <div class="flex justify-end">
+              <div class="self-center">
+                <button
+                  type="button"
+                  class="p-2.5 text-gray-400 hover:text-gray-500 flex justify-end"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                  />
-                </svg>
+                  <span class="sr-only">View notifications</span>
+                  <BellIcon class="w-4 h-4 md:h-6 md:w-6" aria-hidden="true" />
+                </button>
+              </div>
 
-                <!-- <img class="h-8 w-8 rounded-full bg-gray-50"
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                    :alt="user.name" /> -->
-                <span class="hidden lg:flex lg:items-center">
-                  <span
-                    class="ml-4 text-sm font-semibold leading-6 text-gray-900"
-                    aria-hidden="true"
+              <div class="hidden h-16 lg:block lg:w-px lg:bg-gray-200" aria-hidden="true" />
+            </div>
+
+            <!-- Part 2: Balance -->
+            <div class="flex">
+              <div class="p-2.5 text-xs md:text-sm">
+                <div>
+                  <span class="text-center">Balance</span>
+                </div>
+                <div>
+                  <span v-if="user.account" class="text-center">{{ user.account.balance }}$</span>
+                </div>
+              </div>
+              <div class="hidden h-16 lg:block lg:w-px lg:bg-gray-200" aria-hidden="true" />
+            </div>
+
+            <!-- Part 3: Profile Dropdown -->
+            <Menu as="div" class="relative">
+              <MenuButton class="flex items-center p-1.5 float-right">
+                <span class="sr-only">Open user menu</span>
+                <div class="flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 md:w-6 md:h-6"
                   >
-                    {{ user.name }}
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                    />
+                  </svg>
+                  <span class="hidden lg:flex lg:items-center">
+                    <span class="text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">
+                      {{ user.name }}
+                    </span>
+                    <ChevronDownIcon class="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                   </span>
-                  <ChevronDownIcon class="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
-                </span>
+                </div>
               </MenuButton>
               <transition
                 enter-active-class="transition ease-out duration-100"
@@ -288,8 +333,9 @@
             </Menu>
           </div>
         </div>
-      </div>
 
+        <div></div>
+      </div>
       <main class="py-10">
         <div class="px-4 sm:px-6 lg:px-8">
           <!-- Your content -->
@@ -301,10 +347,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useCallsStore } from '../../stores/CallsStore'
 import { RouterLink, RouterView } from 'vue-router'
 const authenticationStore = useAuthenticationStore()
 import { storeToRefs } from 'pinia'
+
+const dropdownOpen = ref(false)
+
+function closeDropdown() {
+  dropdownOpen.value = false
+}
 const { user } = storeToRefs(authenticationStore)
 import {
   Dialog,
@@ -350,5 +403,27 @@ const userNavigation = [
   { name: 'Sign out', href: '#' }
 ]
 
+const filters = ['from', 'to', 'call_id', 'date_from', 'date_to']
+
 const sidebarOpen = ref(false)
+
+const selectedFilters = ref([])
+
+const { get_calls } = useCallsStore()
+const searchQuery = ref('')
+
+const combinedFilters = computed(() => {
+  const filtersObject = {}
+
+  // Add selected filters to the filters object
+  selectedFilters.value.forEach((filter) => {
+    filtersObject[filter] = searchQuery.value
+  })
+
+  return filtersObject
+})
+
+const handleSearch = () => {
+  get_calls(1, 20, combinedFilters.value)
+}
 </script>
